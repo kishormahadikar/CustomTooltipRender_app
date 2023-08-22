@@ -140,6 +140,7 @@ class _TooltipButtonState extends State<TooltipButton> {
                         arrowHeight: arrowHeight,
                         arrowWidth: arrowWidth,
                         toolTipWidth: toolTipWidth,
+                        preferredBelow: false,
                       )
                     : ButtonWidget(
                         title: 'Button 4',
@@ -158,6 +159,7 @@ class _TooltipButtonState extends State<TooltipButton> {
                         arrowWidth: arrowWidth,
                         toolTipWidth: toolTipWidth,
                         imageUrl: imageUrl,
+                        preferredBelow: false,
                       )
                     : ButtonWidget(
                         title: 'Button 5',

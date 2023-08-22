@@ -14,6 +14,8 @@ class ToolTipButtonWidget extends StatefulWidget {
   final double arrowWidth;
   final double arrowHeight;
   final double toolTipWidth;
+  final bool preferredBelow;
+
   const ToolTipButtonWidget({
     Key key,
     this.imageUrl,
@@ -25,8 +27,9 @@ class ToolTipButtonWidget extends StatefulWidget {
     this.backgroundColorHex,
     this.tooltipPadding,
     this.arrowWidth,
-    this.arrowHeight, 
-    this.toolTipWidth
+    this.arrowHeight,
+    this.toolTipWidth,
+    this.preferredBelow = true,
   }) : super(key: key);
 
   @override
@@ -70,9 +73,17 @@ class _ToolTipButtonWidgetState extends State<ToolTipButtonWidget>
   }
 
   OverlayEntry _makeOverlay(BuildContext context) {
+    double arrowTop = widget.preferredBelow
+        ? _offset.dy + 400
+        : _offset.dy - widget.arrowHeight - MediaQuery.of(context).size.width*0.75;
+    
+    double tooltipTop = widget.preferredBelow
+        ? arrowTop + widget.arrowHeight
+        : arrowTop;
+
     return OverlayEntry(
       builder: (context) => Positioned(
-        top: _offset.dy + 40,
+        top: tooltipTop,
         left: _offset.dx - (widget.toolTipWidth / 2),
         width: _size.width + widget.toolTipWidth,
         child: ScaleTransition(
@@ -83,7 +94,7 @@ class _ToolTipButtonWidgetState extends State<ToolTipButtonWidget>
               Align(
                 alignment: Alignment.center,
                 child: ClipPath(
-                  clipper: ArrowClip(),
+                  clipper: ArrowClip(isDownArrow: widget.preferredBelow),
                   child: Container(
                     height: widget.arrowHeight,
                     width: widget.arrowWidth,
@@ -125,7 +136,7 @@ class _ToolTipButtonWidgetState extends State<ToolTipButtonWidget>
                           : SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.3,
-                              width: MediaQuery.of(context).size.width ,
+                              width: MediaQuery.of(context).size.width,
                               child: Image.network(
                                 widget.imageUrl,
                                 fit: BoxFit.cover,
@@ -170,16 +181,27 @@ class _ToolTipButtonWidgetState extends State<ToolTipButtonWidget>
 }
 
 class ArrowClip extends CustomClipper<Path> {
+  final bool isDownArrow;
+
+  ArrowClip({this.isDownArrow = true});
+
   @override
   Path getClip(Size size) {
     Path path = Path();
-    path.moveTo(0, size.height);
-    path.lineTo(size.width / 2, 0);
-    path.lineTo(size.width, size.height);
-
+    if (isDownArrow) {
+      path.moveTo(0, size.height);
+      path.lineTo(size.width / 2, 0);
+      path.lineTo(size.width, size.height);
+    } else {
+      path.moveTo(0, 0);
+      path.lineTo(size.width / 2, size.height);
+      path.lineTo(size.width, 0);
+    }
     return path;
   }
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }
+
+
