@@ -1,87 +1,124 @@
 import 'package:flutter/material.dart';
 import 'package:plotline_assignment/widgets/button.dart';
+import 'package:plotline_assignment/widgets/tooltipbutton.dart';
 
 class TooltipButton extends StatefulWidget {
   static const routename = '/tooltop';
+  final int selectedItemId;
+  final String tooltipText;
+
+  TooltipButton({this.selectedItemId, this.tooltipText});
+
   @override
   State<TooltipButton> createState() => _TooltipButtonState();
 }
 
 class _TooltipButtonState extends State<TooltipButton> {
   final GlobalKey _tooltipKey = GlobalKey();
-  bool _isTooltipVisible = false;
+  var depCheck = false;
+  String title;
+  String textColor;
+  String backgroundColor;
+  int id;
+  int textSize = 0;
+  int textPadding = 0;
+  int arrowWidth = 0;
+  int arrowHeight = 0;
 
-  OverlayEntry _overlayEntry;
-
-  void _toggleTooltip() {
-    setState(() {
-      _isTooltipVisible = !_isTooltipVisible;
-
-      if (_isTooltipVisible) {
-        _createOverlayEntry();
-      } else {
-        _overlayEntry?.remove();
-        _overlayEntry = null;
-      }
-    });
-  }
-
-  void _createOverlayEntry() {
-    final renderBox =
-        _tooltipKey.currentContext.findRenderObject() as RenderBox;
-
-    final offset = renderBox.localToGlobal(
-      renderBox.size.center(Offset.zero),
-      ancestor: context.findRenderObject(),
-    );
-
-    _overlayEntry = OverlayEntry(
-      builder: (context) {
-        return PositionedTooltip(
-          child: Text('This is a tooltip'),
-          targetOffset: offset,
-        );
-      },
-    );
-    Overlay.of(context)?.insert(_overlayEntry);
+  void didChangeDependencies() {
+    if (!depCheck) {
+      final routeArgs =
+          ModalRoute.of(context).settings.arguments as Map<String, Object>;
+      id = routeArgs['id'];
+      title = routeArgs['title'];
+      textSize = routeArgs['textsize'];
+      textPadding = routeArgs['padding'];
+      textColor = routeArgs['textColor'];
+      backgroundColor = routeArgs['backgroundColor'];
+      arrowWidth = routeArgs['arrowWidth'];
+      arrowHeight = routeArgs['arrowHeight'];
+      depCheck = true;
+    }
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    
+    print(textSize.toString());
     return Scaffold(
       backgroundColor: Colors.white60,
       body: SingleChildScrollView(
         child: Column(
-         // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height:MediaQuery.of(context).size.height*0.10,
-            ),
-            Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ButtonWidget(title: 'Button 1',onPressed: _toggleTooltip),
-             ButtonWidget(title: 'Button 2',onPressed: _toggleTooltip),
-            ],
-            ),
-             SizedBox(
-              height:MediaQuery.of(context).size.height*0.3,
-            ),
-            ButtonWidget(title: 'Button 3',onPressed: _toggleTooltip),
-            SizedBox(
-              height:MediaQuery.of(context).size.height*0.37,
+              height: MediaQuery.of(context).size.height * 0.10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-              ButtonWidget(title: 'Button 4',onPressed: _toggleTooltip),
-              ButtonWidget(title: 'Button 5',onPressed: _toggleTooltip),
+                id == 1
+                    ? ToolTipButtonWidget(
+                        message: title,
+                        buttonName: 'Button 1',
+                      )
+                    : ButtonWidget(
+                        title: 'Button 1',
+                        onPressed: () {},
+                      ),
+                id == 2
+                    ? ToolTipButtonWidget(
+                        message: title,
+                        buttonName: 'Button 2',
+                      )
+                    : ButtonWidget(
+                        title: 'Button 2',
+                        onPressed: () {},
+                      ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.3,
+            ),
+            id == 3
+                ? ToolTipButtonWidget(
+                    message: title,
+                    buttonName: 'Button 3',
+                  )
+                : ButtonWidget(
+                    title: 'Button 3',
+                    onPressed: () {},
+                  ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.37,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                id == 4
+                    ? ToolTipButtonWidget(
+                        message: title,
+                        imageUrl:
+                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif',
+                        buttonName: 'Button 4',
+                      )
+                    : ButtonWidget(
+                        title: 'Button 4',
+                        onPressed: () {},
+                      ),
+                id == 5
+                    ? ToolTipButtonWidget(
+                        message: title,
+                        buttonName: 'Button 5',
+                      )
+                    : ButtonWidget(
+                        title: 'Button 5',
+                        onPressed: () {},
+                      ),
               ],
             ),
             Container(
-              key: _tooltipKey, //find the render object
-              child: SizedBox.shrink(), //empty widget
+              key: _tooltipKey,
+              child: SizedBox.shrink(),
             ),
           ],
         ),

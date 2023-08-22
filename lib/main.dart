@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:plotline_assignment/page2.dart';
 import 'package:plotline_assignment/widgets/tooltip.dart';
 
 void main() {
@@ -35,68 +34,318 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Page1 extends StatelessWidget {
+class Page1 extends StatefulWidget {
   Page1({Key key}) : super(key: key);
+
+  @override
+  State<Page1> createState() => _Page1State();
+}
+
+class _Page1State extends State<Page1> {
+  int _selectedItemId;
+  String _tooltipText = '';
+  String _textColor = '';
+  String _backgroundColor = '';
+  int _textSize = 0;
+  int _textPadding = 0;
+  int _cornerRadius = 0;
+  int _tooltipWidth = 0;
+  int _arrowWidth = 0;
+  int _arrowHeight = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
-        child: ListView(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.1,
-                  vertical: MediaQuery.of(context).size.height * 0.05),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Target element',
-                    style: TextStyle(
-                      fontSize: 17,
+      body: SingleChildScrollView(
+        child: Form(
+          child: Container(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.1,
+                vertical: MediaQuery.of(context).size.height * 0.05),
+            child: Column(
+              //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.06,
+                ),
+                const Text(
+                  'Target element',
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                ),
+                DropDownFormItem(
+                  buttonItems: buttonItems,
+                  onItemSelected: (int itemId) {
+                    setState(() {
+                      _selectedItemId = itemId;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+                const Text(
+                  'Tooltip Text',
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                ),
+                TextFormField(
+                  maxLength: 100,
+                  decoration: const InputDecoration(labelText: 'Input'),
+                  onChanged: (value) {
+                    setState(() {
+                      _tooltipText = value;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Text Size',
+                            style: TextStyle(
+                              fontSize: 17,
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            child: TextFormField(
+                              decoration: const InputDecoration(hintText: '20'),
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                setState(() {
+                                  _textSize = int.parse(value);
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Padding',
+                            style: TextStyle(
+                              fontSize: 17,
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            child: TextFormField(
+                              decoration: const InputDecoration(hintText: '3'),
+                              onChanged: (value) {
+                                setState(() {
+                                  _textPadding = int.parse(value);
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                ),
+                const Text(
+                  'Text Color',
+                  style: TextStyle(
+                    fontSize: 17,
                   ),
-                  DropdownFormExample(buttonItems: buttonItems),
-                  const Text(
-                    'Tooltip Text',
-                    style: TextStyle(
-                      fontSize: 17,
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(labelText: 'Add "0xff" followed by color hex code'),
+                  onChanged: (value) {
+                    setState(() {
+                      _textColor = value;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+                const Text(
+                  'Background Color',
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(labelText: 'Add "0xff" followed by color hex code'),
+                  onChanged: (value) {
+                    setState(() {
+                      _backgroundColor = value;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Corner Radius',
+                            style: TextStyle(
+                              fontSize: 17,
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            child: TextFormField(
+                              decoration: const InputDecoration(hintText: '20'),
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                setState(() {
+                                  _cornerRadius = int.parse(value);
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  TextFormField(
-                    maxLength: 100,
-                    decoration: const InputDecoration(labelText: 'Input'),
-                  ),
-                  Row(),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacementNamed(TooltipButton.routename);
-                    },
-                    child: const Text("Render Tooltip"),
-                  ),
-                ],
-              ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Tooltip Width',
+                            style: TextStyle(
+                              fontSize: 17,
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            child: TextFormField(
+                              decoration: const InputDecoration(hintText: '3'),
+                              onChanged: (value) {
+                                setState(() {
+                                  _tooltipWidth = int.parse(value);
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Arrow Width',
+                            style: TextStyle(
+                              fontSize: 17,
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            child: TextFormField(
+                              decoration: const InputDecoration(hintText: '20'),
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                setState(() {
+                                  _arrowWidth = int.parse(value);
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      child: Column(
+                        children: [
+                          const Text(
+                            'ArrowHeight',
+                            style: TextStyle(
+                              fontSize: 17,
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            child: TextFormField(
+                              decoration: const InputDecoration(hintText: '3'),
+                              onChanged: (value) {
+                                setState(() {
+                                  _arrowHeight = int.parse(value);
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacementNamed(
+                        TooltipButton.routename,
+                        arguments: {
+                          'id': _selectedItemId,
+                          'title': _tooltipText,
+                          'textsize': _textSize,
+                          'padding': _textPadding,
+                          'textColor': _textColor,
+                          'backgroundColor': _backgroundColor,
+                          'arrowWidth':_arrowWidth,
+                          'arrowHeight':_arrowHeight,
+                        });
+                  },
+                  child: const Text("Render Tooltip"),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-class DropdownFormExample extends StatefulWidget {
+class DropDownFormItem extends StatefulWidget {
   final List<ButtonItem> buttonItems;
+  final ValueChanged<int> onItemSelected;
 
-  DropdownFormExample({@required this.buttonItems});
+  DropDownFormItem({@required this.buttonItems, @required this.onItemSelected});
 
   @override
-  _DropdownFormExampleState createState() => _DropdownFormExampleState();
+  _DropDownFormItemState createState() => _DropDownFormItemState();
 }
 
-class _DropdownFormExampleState extends State<DropdownFormExample> {
+class _DropDownFormItemState extends State<DropDownFormItem> {
   ButtonItem _selectedItem;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -107,6 +356,7 @@ class _DropdownFormExampleState extends State<DropdownFormExample> {
           setState(() {
             _selectedItem = value;
           });
+          widget.onItemSelected(_selectedItem.id); // Call the callback here
         },
         items: widget.buttonItems.map((ButtonItem item) {
           return DropdownMenuItem<ButtonItem>(
@@ -114,7 +364,7 @@ class _DropdownFormExampleState extends State<DropdownFormExample> {
             child: Text(item.title),
           );
         }).toList(),
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: 'Select an element',
           border: OutlineInputBorder(),
         ),
