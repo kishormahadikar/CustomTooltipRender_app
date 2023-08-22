@@ -42,16 +42,17 @@ class Page1 extends StatefulWidget {
 }
 
 class _Page1State extends State<Page1> {
-  int _selectedItemId;
-  String _tooltipText = '';
-  String _textColor = '';
-  String _backgroundColor = '';
-  int _textSize = 0;
-  int _textPadding = 0;
-  int _cornerRadius = 0;
-  int _tooltipWidth = 0;
-  int _arrowWidth = 0;
-  int _arrowHeight = 0;
+  int _selectedItemId; //added
+  String _tooltipText = ''; //added
+  String _textColor = ''; //added
+  String _backgroundColor = ''; //added
+  double _textSize = 0.0; //added
+  double _textPadding = 0.0; //added
+  double _cornerRadius = 0.0; //ADDED
+  double _tooltipWidth = 0.0; //added
+  double _arrowWidth = 0.0; //added
+  double _arrowHeight = 0.0; //added
+  String _imageUrl; //added
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +124,7 @@ class _Page1State extends State<Page1> {
                               keyboardType: TextInputType.number,
                               onChanged: (value) {
                                 setState(() {
-                                  _textSize = int.parse(value);
+                                  _textSize = double.parse(value);
                                 });
                               },
                             ),
@@ -147,7 +148,7 @@ class _Page1State extends State<Page1> {
                               decoration: const InputDecoration(hintText: '3'),
                               onChanged: (value) {
                                 setState(() {
-                                  _textPadding = int.parse(value);
+                                  _textPadding = double.parse(value);
                                 });
                               },
                             ),
@@ -167,7 +168,8 @@ class _Page1State extends State<Page1> {
                   ),
                 ),
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Add "0xff" followed by color hex code'),
+                  decoration: const InputDecoration(
+                      labelText: 'Add "0xff" followed by color hex code'),
                   onChanged: (value) {
                     setState(() {
                       _textColor = value;
@@ -184,7 +186,8 @@ class _Page1State extends State<Page1> {
                   ),
                 ),
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Add "0xff" followed by color hex code'),
+                  decoration: const InputDecoration(
+                      labelText: 'Add "0xff" followed by color hex code'),
                   onChanged: (value) {
                     setState(() {
                       _backgroundColor = value;
@@ -214,7 +217,7 @@ class _Page1State extends State<Page1> {
                               keyboardType: TextInputType.number,
                               onChanged: (value) {
                                 setState(() {
-                                  _cornerRadius = int.parse(value);
+                                  _cornerRadius = double.parse(value);
                                 });
                               },
                             ),
@@ -238,7 +241,7 @@ class _Page1State extends State<Page1> {
                               decoration: const InputDecoration(hintText: '3'),
                               onChanged: (value) {
                                 setState(() {
-                                  _tooltipWidth = int.parse(value);
+                                  _tooltipWidth = double.parse(value);
                                 });
                               },
                             ),
@@ -271,7 +274,7 @@ class _Page1State extends State<Page1> {
                               keyboardType: TextInputType.number,
                               onChanged: (value) {
                                 setState(() {
-                                  _arrowWidth = int.parse(value);
+                                  _arrowWidth = double.parse(value);
                                 });
                               },
                             ),
@@ -295,7 +298,7 @@ class _Page1State extends State<Page1> {
                               decoration: const InputDecoration(hintText: '3'),
                               onChanged: (value) {
                                 setState(() {
-                                  _arrowHeight = int.parse(value);
+                                  _arrowHeight = double.parse(value);
                                 });
                               },
                             ),
@@ -308,6 +311,24 @@ class _Page1State extends State<Page1> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.04,
                 ),
+                const Text(
+                  'Image URL',
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                      labelText: 'Add Image URL'),
+                  onChanged: (value) {
+                    setState(() {
+                      _imageUrl = value;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pushReplacementNamed(
@@ -315,12 +336,15 @@ class _Page1State extends State<Page1> {
                         arguments: {
                           'id': _selectedItemId,
                           'title': _tooltipText,
-                          'textsize': _textSize,
+                          'textsize': _textSize==0.0?25.0:_textSize,
                           'padding': _textPadding,
                           'textColor': _textColor,
                           'backgroundColor': _backgroundColor,
-                          'arrowWidth':_arrowWidth,
-                          'arrowHeight':_arrowHeight,
+                          'arrowWidth': _arrowWidth==0.0?20.5:_arrowWidth,
+                          'arrowHeight': _arrowHeight==0.0?15.5:_arrowHeight,
+                          'cornerRadius':_cornerRadius==0.0?10.0:_cornerRadius,
+                          'toolTipWidth' : _tooltipWidth==0.0?111.1:_tooltipWidth,
+                          'imageUrl' : _imageUrl
                         });
                   },
                   child: const Text("Render Tooltip"),

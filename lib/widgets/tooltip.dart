@@ -17,13 +17,16 @@ class _TooltipButtonState extends State<TooltipButton> {
   final GlobalKey _tooltipKey = GlobalKey();
   var depCheck = false;
   String title;
-  String textColor;
+  String textColor = null;
   String backgroundColor;
   int id;
-  int textSize = 0;
-  int textPadding = 0;
-  int arrowWidth = 0;
-  int arrowHeight = 0;
+  double cornerRadius;
+  double textSize = 0.0;
+  double textPadding = 0.0;
+  double arrowWidth = 0.0;
+  double arrowHeight = 0.0;
+  double toolTipWidth = 0.0;
+  String imageUrl;
 
   void didChangeDependencies() {
     if (!depCheck) {
@@ -37,6 +40,9 @@ class _TooltipButtonState extends State<TooltipButton> {
       backgroundColor = routeArgs['backgroundColor'];
       arrowWidth = routeArgs['arrowWidth'];
       arrowHeight = routeArgs['arrowHeight'];
+      cornerRadius = routeArgs['cornerRadius'];
+      toolTipWidth = routeArgs['toolTipWidth'];
+      imageUrl= routeArgs['imageUrl'];
       depCheck = true;
     }
     super.didChangeDependencies();
@@ -60,6 +66,15 @@ class _TooltipButtonState extends State<TooltipButton> {
                     ? ToolTipButtonWidget(
                         message: title,
                         buttonName: 'Button 1',
+                        tooltipPadding: EdgeInsets.all(textPadding),
+                        textSize: textSize,
+                        textColorHex: textColor,
+                        backgroundColorHex: backgroundColor,
+                        cornerRadius: cornerRadius,
+                        arrowHeight: arrowHeight,
+                        arrowWidth: arrowWidth,
+                        toolTipWidth: toolTipWidth,
+                        imageUrl: imageUrl,
                       )
                     : ButtonWidget(
                         title: 'Button 1',
@@ -69,6 +84,15 @@ class _TooltipButtonState extends State<TooltipButton> {
                     ? ToolTipButtonWidget(
                         message: title,
                         buttonName: 'Button 2',
+                        tooltipPadding: EdgeInsets.all(textPadding),
+                        textSize: textSize,
+                        textColorHex: textColor,
+                        backgroundColorHex: backgroundColor,
+                        cornerRadius: cornerRadius,
+                        arrowHeight: arrowHeight,
+                        arrowWidth: arrowWidth,
+                        toolTipWidth: toolTipWidth,
+                        imageUrl: imageUrl,
                       )
                     : ButtonWidget(
                         title: 'Button 2',
@@ -83,6 +107,15 @@ class _TooltipButtonState extends State<TooltipButton> {
                 ? ToolTipButtonWidget(
                     message: title,
                     buttonName: 'Button 3',
+                    tooltipPadding: EdgeInsets.all(textPadding),
+                    textSize: textSize,
+                    textColorHex: textColor,
+                    backgroundColorHex: backgroundColor,
+                    cornerRadius: cornerRadius,
+                    arrowHeight: arrowHeight,
+                    arrowWidth: arrowWidth,
+                    toolTipWidth: toolTipWidth,
+                    imageUrl: imageUrl,
                   )
                 : ButtonWidget(
                     title: 'Button 3',
@@ -97,9 +130,16 @@ class _TooltipButtonState extends State<TooltipButton> {
                 id == 4
                     ? ToolTipButtonWidget(
                         message: title,
-                        imageUrl:
-                            'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif',
+                        tooltipPadding: EdgeInsets.all(textPadding),
+                        imageUrl: imageUrl,
                         buttonName: 'Button 4',
+                        textSize: textSize,
+                        textColorHex: textColor,
+                        backgroundColorHex: backgroundColor,
+                        cornerRadius: cornerRadius,
+                        arrowHeight: arrowHeight,
+                        arrowWidth: arrowWidth,
+                        toolTipWidth: toolTipWidth,
                       )
                     : ButtonWidget(
                         title: 'Button 4',
@@ -108,7 +148,16 @@ class _TooltipButtonState extends State<TooltipButton> {
                 id == 5
                     ? ToolTipButtonWidget(
                         message: title,
+                        tooltipPadding: EdgeInsets.all(textPadding),
+                        textSize: textSize,
                         buttonName: 'Button 5',
+                        textColorHex: textColor,
+                        backgroundColorHex: backgroundColor,
+                        cornerRadius: cornerRadius,
+                        arrowHeight: arrowHeight,
+                        arrowWidth: arrowWidth,
+                        toolTipWidth: toolTipWidth,
+                        imageUrl: imageUrl,
                       )
                     : ButtonWidget(
                         title: 'Button 5',
