@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Page1(),
+      theme: ThemeData(fontFamily: 'Barlow'),
       routes: {
         TooltipButton.routename: (context) => TooltipButton(),
       },
@@ -60,6 +61,9 @@ class _Page1State extends State<Page1> {
       body: SingleChildScrollView(
         child: Form(
           child: Container(
+            decoration: const BoxDecoration(
+              color: Color(0xffd3d3d3)
+            ),
             padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.1,
               vertical: MediaQuery.of(context).size.height * 0.05,
@@ -72,7 +76,8 @@ class _Page1State extends State<Page1> {
                 const Text(
                   'Target element',
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
                   ),
                 ),
                 DropDownFormItem(
@@ -231,14 +236,20 @@ class _Page1State extends State<Page1> {
                         'textColor': _textColor,
                         'backgroundColor': _backgroundColor,
                         'arrowWidth': _arrowWidth == 0.0 ? 20.5 : _arrowWidth,
-                        'arrowHeight': _arrowHeight == 0.0 ? 15.5 : _arrowHeight,
-                        'cornerRadius': _cornerRadius == 0.0 ? 10.0 : _cornerRadius,
-                        'toolTipWidth': _tooltipWidth == 0.0 ? 111.1 : _tooltipWidth,
+                        'arrowHeight':
+                            _arrowHeight == 0.0 ? 15.5 : _arrowHeight,
+                        'cornerRadius':
+                            _cornerRadius == 0.0 ? 10.0 : _cornerRadius,
+                        'toolTipWidth':
+                            _tooltipWidth == 0.0 ? 111.1 : _tooltipWidth,
                         'imageUrl': _imageUrl,
                       },
                     );
                   },
-                  child: const Text("Render Tooltip"),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff00008b)
+  ),
+                  child: const Text("Render Tooltip",style: TextStyle(fontSize: 17),),
                 ),
               ],
             ),
@@ -257,14 +268,24 @@ class _Page1State extends State<Page1> {
   }) {
     return Column(
       children: [
-         Text(
+        Text(
           label,
-          style: TextStyle(
-            fontSize: 17,
+          textAlign: TextAlign.start,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold
           ),
         ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.02,
+        ),
         TextFormField(
-          decoration: InputDecoration(labelText: labelText),
+          decoration: InputDecoration(
+            labelText: labelText,
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(),
+          ),
           onChanged: onChanged,
         ),
         SizedBox(
@@ -285,14 +306,25 @@ class _Page1State extends State<Page1> {
       width: MediaQuery.of(context).size.width * 0.35,
       child: Column(
         children: [
-           Text(
+          Text(
             label,
-            style: TextStyle(
-              fontSize: 17,
+            textAlign: TextAlign.start,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold
             ),
           ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
           TextFormField(
-            decoration: InputDecoration(hintText: hintText),
+            decoration: InputDecoration(
+              hintText: hintText,
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(),
+
+            ),
             keyboardType: TextInputType.number,
             onChanged: onChanged,
           ),
@@ -336,9 +368,10 @@ class _DropDownFormItemState extends State<DropDownFormItem> {
         decoration: const InputDecoration(
           labelText: 'Select an element',
           border: OutlineInputBorder(),
+          fillColor: Colors.white,
+          filled: true
         ),
       ),
     );
   }
 }
-

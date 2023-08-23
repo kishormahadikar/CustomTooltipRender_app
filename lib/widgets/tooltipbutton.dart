@@ -74,16 +74,17 @@ class _ToolTipButtonWidgetState extends State<ToolTipButtonWidget>
 
   OverlayEntry _makeOverlay(BuildContext context) {
     double arrowTop = widget.preferredBelow
-        ? _offset.dy + 400
-        : _offset.dy - widget.arrowHeight - MediaQuery.of(context).size.width*0.75;
-    
+        ? _offset.dy + 20
+        : _offset.dy - widget.arrowHeight - MediaQuery.of(context).size.height * 0.7;
+
     double tooltipTop = widget.preferredBelow
         ? arrowTop + widget.arrowHeight
-        : arrowTop;
+        : arrowTop - widget.arrowHeight;
 
     return OverlayEntry(
       builder: (context) => Positioned(
-        top: tooltipTop,
+        bottom: widget.preferredBelow ? null : MediaQuery.of(context).size.height*0.25 - tooltipTop,
+        top: widget.preferredBelow ? tooltipTop : null,
         left: _offset.dx - (widget.toolTipWidth / 2),
         width: _size.width + widget.toolTipWidth,
         child: ScaleTransition(
@@ -91,7 +92,7 @@ class _ToolTipButtonWidgetState extends State<ToolTipButtonWidget>
               CurvedAnimation(parent: _controller, curve: Curves.bounceOut)),
           child: Column(
             children: [
-              Align(
+              widget.preferredBelow? Align(
                 alignment: Alignment.center,
                 child: ClipPath(
                   clipper: ArrowClip(isDownArrow: widget.preferredBelow),
@@ -104,7 +105,7 @@ class _ToolTipButtonWidgetState extends State<ToolTipButtonWidget>
                     ),
                   ),
                 ),
-              ),
+              ) : SizedBox(),
               Material(
                 borderRadius: BorderRadius.circular(widget.cornerRadius),
                 color: widget.backgroundColorHex.isEmpty
@@ -146,6 +147,20 @@ class _ToolTipButtonWidgetState extends State<ToolTipButtonWidget>
                   ),
                 ),
               ),
+              !widget.preferredBelow? Align(
+                alignment: Alignment.center,
+                child: ClipPath(
+                  clipper: ArrowClip(isDownArrow: widget.preferredBelow),
+                  child: Container(
+                    height: widget.arrowHeight,
+                    width: widget.arrowWidth,
+                    decoration: BoxDecoration(
+                      color: color,
+                      borderRadius: BorderRadius.circular(widget.cornerRadius),
+                    ),
+                  ),
+                ),
+              ) : SizedBox(),
             ],
           ),
         ),
@@ -155,7 +170,7 @@ class _ToolTipButtonWidgetState extends State<ToolTipButtonWidget>
 
   @override
   Widget build(BuildContext context) {
-    print(widget.toolTipWidth);
+    print(widget.imageUrl);
     return InkWell(
       key: key,
       child: ButtonWidget(title: widget.buttonName, onPressed: () {}),
@@ -165,7 +180,7 @@ class _ToolTipButtonWidgetState extends State<ToolTipButtonWidget>
         overlayEntry = _makeOverlay(context);
         Overlay.of(context).insert(overlayEntry);
         _controller.forward();
-        _tooltipTimer = Timer(Duration(seconds: 2), () {
+        _tooltipTimer = Timer(Duration(seconds: 20), () {
           _controller.reverse();
           overlayEntry.remove();
         });
@@ -203,5 +218,3 @@ class ArrowClip extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }
-
-
