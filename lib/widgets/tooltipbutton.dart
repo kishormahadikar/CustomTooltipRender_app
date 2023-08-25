@@ -180,7 +180,7 @@ class _ToolTipButtonWidgetState extends State<ToolTipButtonWidget>
         overlayEntry = _makeOverlay(context);
         Overlay.of(context).insert(overlayEntry);
         _controller.forward();
-        _tooltipTimer = Timer(Duration(seconds: 20), () {
+        _tooltipTimer = Timer(Duration(seconds: 2), () {
           _controller.reverse();
           overlayEntry.remove();
         });
